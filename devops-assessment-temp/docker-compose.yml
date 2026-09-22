@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: devops_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: booking_engine
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/migrations/01_init_schema.sql:/docker-entrypoint-initdb.d/01_init_schema.sql:ro
+      - ./db/seeds/02_seed_data.sql:/docker-entrypoint-initdb.d/02_seed_data.sql:ro
+      - ./db/indexes/03_indexes.sql:/docker-entrypoint-initdb.d/03_indexes.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d booking_engine"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  pgdata:
+    driver: local

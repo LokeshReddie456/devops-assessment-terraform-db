@@ -1,0 +1,13 @@
+aws_region              = "us-east-1"
+environment             = "prod"
+vpc_cidr                = "10.20.0.0/16"
+public_subnet_cidrs     = ["10.20.1.0/24", "10.20.2.0/24"]
+private_subnet_cidrs    = ["10.20.10.0/24", "10.20.11.0/24"]
+ecs_cpu                 = "1024"
+ecs_memory              = "2048"
+ecs_desired_count       = 3
+rds_instance_class      = "db.m6g.large"
+rds_allocated_storage   = 100
+rds_backup_retention    = 30
+rds_deletion_protection = true
+rds_multi_az            = true
